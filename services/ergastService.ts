@@ -1,8 +1,15 @@
 
 
 interface IErgastService {
-  getDrivers(): angular.IPromise<any>;
+
+  /**
+   * Petidion GET para obtener los resultados de los pilotos en el año 2017
+   * @return Promesa con array de IDriverStanding
+   */
+  getDrivers(): angular.IPromise<IDriverStanding[]>;
+
   getDriverDetails(id: string): angular.IPromise<any>;
+
   getDriverRaces(id: string): angular.IPromise<any>;
 
   /**
@@ -21,7 +28,7 @@ class ErgastService implements IErgastService {
     this.http = $http;
   }
 
-  public getDrivers = () => {
+  public getDrivers = (): angular.IPromise<IDriverStanding[]> => {
     return this.http.get<any>("http://ergast.com/api/f1/2017/driverStandings.json").then(result => {
       return result.data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
     });
